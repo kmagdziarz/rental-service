@@ -7,10 +7,9 @@ public final class Client
     private long clientId;
     private List<Long> rentedCarIds;
 
-    public Client(long clientId, List<Long> rentedCarIds)
+    public Client(long clientId)
     {
         this.clientId = clientId;
-        this.rentedCarIds = rentedCarIds;
     }
 
     public long getClientId()

@@ -13,6 +13,14 @@ public interface CarRentalService
     Car rentCar(long carId, long clientId);
 
     /**
+     * Return a car that was rented by a client
+     * @param carId - id of the car to return
+     * @param clientId - id of the client returning the car
+     * @return the car that was returned
+     */
+    Car returnCar(long carId, long clientId);
+
+    /**
      * Get a list of all available cars
      * @return list of available cars
      */
@@ -23,13 +31,6 @@ public interface CarRentalService
      * @return list of rented cars
      */
     List<Car> getAllRentedCarsByClient(long clientId);
-
-    /**
-     * Return a car that was rented by a client
-     * @param carId - id of the car to return
-     * @param clientId - id of the client returning the car
-     */
-    void returnCar(long carId, long clientId);
 
     /**
      * Check if a car is rented
