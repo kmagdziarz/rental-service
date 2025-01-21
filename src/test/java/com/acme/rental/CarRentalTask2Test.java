@@ -17,7 +17,6 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toUnmodifiableList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNoException;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CarRentalTask2Test
 {
@@ -30,6 +29,7 @@ public class CarRentalTask2Test
     @Test
     public void shouldScoreTheGamesInThreadSafeManner() throws InterruptedException
     {
+        assertSingleThreadResultIsTheSameAsMultithreadedOne(1);
         assertSingleThreadResultIsTheSameAsMultithreadedOne(10);
         assertSingleThreadResultIsTheSameAsMultithreadedOne(100);
         assertSingleThreadResultIsTheSameAsMultithreadedOne(1000);
@@ -88,7 +88,7 @@ public class CarRentalTask2Test
         var singleThreadResult = getAllReservedCars(Executors::newSingleThreadExecutor, allTasks);
         var multiThreadedResult = getAllReservedCars(() -> Executors.newFixedThreadPool(10), allTasks);
 
-        assertEquals(singleThreadResult, multiThreadedResult);
+        assertThat(singleThreadResult).isEqualTo(multiThreadedResult);
     }
 
 }
