@@ -27,7 +27,18 @@ public class CarRentalTask2Test
     private static final long CAR_20_ID = 20;
     private static final long CAR_30_ID = 30;
 
-    private static List<Car> getAllReservedCars(Supplier<ExecutorService> executorSupplier, Collection<Consumer<CarRentalService>> tasks) throws InterruptedException
+    @Test
+    public void shouldScoreTheGamesInThreadSafeManner() throws InterruptedException
+    {
+        assertSingleThreadResultIsTheSameAsMultithreadedOne(10);
+        assertSingleThreadResultIsTheSameAsMultithreadedOne(100);
+        assertSingleThreadResultIsTheSameAsMultithreadedOne(1000);
+        assertSingleThreadResultIsTheSameAsMultithreadedOne(10_000);
+        assertSingleThreadResultIsTheSameAsMultithreadedOne(100_000);
+        assertSingleThreadResultIsTheSameAsMultithreadedOne(1_000_000);
+    }
+
+    private static List<Long> getAllReservedCars(Supplier<ExecutorService> executorSupplier, Collection<Consumer<CarRentalService>> tasks) throws InterruptedException
     {
         final ExecutorService executor = executorSupplier.get();
         final CarRentalService carRentalService = new CarRentalServiceImpl(IntStream.rangeClosed(1, 50).mapToObj(Car::new).toList());
@@ -45,10 +56,7 @@ public class CarRentalTask2Test
         futures.forEach(f -> assertThatNoException().isThrownBy(f::get));
 
         var allClients = carRentalService.getAllClients();
-        var allReservedCars = allClients.stream()
-                .map(clientId -> carRentalService.getAllRentedCarsByClient(clientId.getClientId()))
-                .flatMap(Collection::stream)
-                .toList();
+        var allReservedCars = allClients.stream().map(Client::getRentedCarIds).flatMap(Collection::stream).toList();
 
         assertThat(allReservedCars).isNotNull();
         assertThat(allReservedCars.size()).isEqualTo(3);
@@ -71,17 +79,6 @@ public class CarRentalTask2Test
             carRentalService.rentCar(CAR_30_ID, clientId);
             carRentalService.rentCar(WRONG_CAR_ID, clientId);
         };
-    }
-
-    @Test
-    public void shouldScoreTheGamesInThreadSafeManner() throws InterruptedException
-    {
-        assertSingleThreadResultIsTheSameAsMultithreadedOne(10);
-        assertSingleThreadResultIsTheSameAsMultithreadedOne(100);
-        assertSingleThreadResultIsTheSameAsMultithreadedOne(1000);
-        assertSingleThreadResultIsTheSameAsMultithreadedOne(10_000);
-        assertSingleThreadResultIsTheSameAsMultithreadedOne(100_000);
-        assertSingleThreadResultIsTheSameAsMultithreadedOne(1_000_000);
     }
 
     private void assertSingleThreadResultIsTheSameAsMultithreadedOne(int numberOfTasks) throws InterruptedException
