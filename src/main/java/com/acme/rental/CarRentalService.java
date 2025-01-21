@@ -38,4 +38,10 @@ public interface CarRentalService
      * @return true if the car is rented, false otherwise
      */
     boolean isCarRented(long carId);
+
+    /**
+     * Get a list of all clients
+     * @return list of clients
+     */
+    List<Client> getAllClients();
 }

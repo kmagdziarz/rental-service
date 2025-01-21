@@ -45,4 +45,12 @@ public class CarRentalServiceImpl implements CarRentalService
         //TODO: Implement this method
         return false;
     }
+
+    @Override
+    public List<Client> getAllClients()
+    {
+        //TODO: Implement this method
+        return List.of();
+    }
+
 }
