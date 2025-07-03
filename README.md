@@ -25,16 +25,19 @@ There are 3 tasks. They depend on each other so start with [Task 1](#task-1) the
 ### Task 1
 In this task you are asked to implement 6 methods in the `com.acme.rental.CarRentalServiceImpl` class.
 - `rentCar` - This method should rent a car to a customer. The method should return the car that was rented. 
-If the car is already rented or does not exist, the method should return null.
+If the car is already rented or does not exist, the method should return null. 
+This method should create new client if client does not exist in internal storage.
 - `returnCar` - This method should return a car that was rented by a client. The method should return the car that was returned.
 If the car is already returned or does not exist, the method should return null.
 - `getAvailableCars` - This method should return a list of all available cars.
-- `getAllRentedCarsByClient` - This method should return a list of all rented cars by a given client.
+- `getAllRentedCarsByClient` - This method should return a list of all rented cars by a given client. 
+If client does not exist it should return 0.
 - `isCarRented` - This method should return true if the car is rented, false otherwise (even if car does not exist).
 - `getAllClients` - This method should return a list of all clients.
 
 The assumption is that clients and cars are identified by their ids and each is unique.
 The initial list of cars should be injected by the constructor.
+Client list (or any other approach for storing clients in memory) should be built during service runtime. 
 
 The `com.acme.rental.Car` represents a car and has the following properties:
 - `carId` - a unique identifier of the car.
@@ -42,7 +45,7 @@ The `com.acme.rental.Car` represents a car and has the following properties:
 
 The `com.acme.rental.Client` represents a client and has the following properties:
 - `clientId` - a unique identifier of the client.
-- `rentedCarIds` - a list of cars rented by the client.
+- `rentedCarIds` - a list of car ids rented by the client.
 
 To focus on the code a test case for this scenario is provided in the `com.acme.rental.CarRentalTask1Test` class.
 

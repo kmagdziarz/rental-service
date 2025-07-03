@@ -35,6 +35,10 @@ public class CarRentalTask1Test
     {
         Car car = carRentalService.rentCar(1, CLIENT_1_ID);
 
+        assertNotNull(car);
+        assertEquals(CAR_1_ID, car.getCarId());
+        assertEquals(CarStatus.RENTED, car.getStatus());
+
         assertTrue(carRentalService.isCarRented(1));
         assertTrue(carRentalService.getAllRentedCarsByClient(CLIENT_1_ID).contains(car));
     }
@@ -90,5 +94,11 @@ public class CarRentalTask1Test
         assertNull(carRentalService.rentCar(WRONG_CAR_ID, CLIENT_1_ID));
         assertNull(carRentalService.returnCar(WRONG_CAR_ID, CLIENT_1_ID));
         assertFalse(carRentalService.isCarRented(WRONG_CAR_ID));
+    }
+
+    @Test
+    void shouldHandleNotExistingClient()
+    {
+        assertEquals(0, carRentalService.getAllRentedCarsByClient(CLIENT_1_ID).size());
     }
 }

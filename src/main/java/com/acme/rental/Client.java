@@ -1,5 +1,6 @@
 package com.acme.rental;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public final class Client
@@ -10,6 +11,7 @@ public final class Client
     public Client(long clientId)
     {
         this.clientId = clientId;
+        rentedCarIds = new ArrayList<>();
     }
 
     public long getClientId()
